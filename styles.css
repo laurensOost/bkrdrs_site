@@ -1,93 +1,155 @@
 body, html {
-    margin: 0;
-    padding: 0;
-    font-family: 'Arial', sans-serif;
-    background: rgb(0, 0, 0);
-    color: rgb(255, 255, 255)a2a;
-    background-image: url(luciapic2.jpg);
-  }
-  
-  header {
-    text-align: center;
-    padding: 1em 0;
-  }
-  
-  nav ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  nav ul li {
-    display: inline;
-    margin-right: 20px;
-  }
-  
-  nav ul li a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 1.6em;
-  }
-  
-  h1 {
-    font-size: 3em;
-  }
-  
-  main {
-    text-align: center;
-    padding: 50px 20px;
-  }
-  
-  footer {
-    padding: 10px;
-    text-align: center;
-  }
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+}
 
-  .logo-image {
-  }
+header {
+  text-align: center;
+  padding: 1em 0;
+  position: relative;
+  z-index: 2;
+}
 
-  
-  .shows-list {
-    list-style-type: none; /* Remove default list styling */
-    padding: 0;
-    color: #fff; /* Set text color to white */
-  }
-  
-  .show {
-    display: flex; /* Use flexbox layout */
-    justify-content: space-between; /* This separates the left content and the button */
-    padding: 10px 0;
-    border-bottom: solid #fff; /* Make the horizontal rule white */
-    font-weight: bold; /* Make the text bold */
-  }
+nav ul {
+  list-style: none;
+  padding: 0;
+}
 
-  .show-info {
-    text-align: left;
-  }
-  
-  .show span, .show a {
-    display: inline-block;
-    padding-right: 20px; /* Or any spacing you prefer */
-    color: #fff; /* Ensure the text within these elements is also white */
-  }
-  
-  .show .tickets-button {
-    margin-left: auto; /* Pushes the button to the right */
-    color: rgb(255, 255, 255);
-    padding: 5px 10px;
-    text-decoration: none;
-  }
-  
-  /* This will make the tickets button stand out */
-  .show .tickets-button:hover {
-    background-color: #ffffff;
-    color: #000; /* Change text color on hover for visibility */
-  }
+nav ul li {
+  display: inline;
+  margin-right: 20px;
+}
 
-  #shows h2 {
-    color: #fff; /* Set the text color to white */
-    text-align: left; /* Align the text to the left */
-  }
-  
-  
-  
-  
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.6em;
+}
+
+.logo-image {
+  max-width: 100%;
+  height: auto;
+}
+
+main {
+  text-align: center;
+  padding: 50px 20px;
+  position: relative;
+  z-index: 2;
+}
+
+footer {
+  padding: 10px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+video#background-video {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  z-index: 1;
+  object-fit: cover;
+  filter: brightness(50%); /* Optional: to darken the video for better text readability */
+}
+
+.shows-list {
+  list-style-type: none; /* Remove default list styling */
+  padding: 0;
+  color: #fff; /* Set text color to white */
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.show {
+  display: flex; /* Use flexbox layout */
+  justify-content: space-between; /* This separates the left content and the button */
+  align-items: center; /* Center items vertically */
+  padding: 10px 20px;
+  border-bottom: 1px solid #fff; /* Make the horizontal rule white */
+  font-weight: bold; /* Make the text bold */
+  transition: background-color 0.3s ease;
+}
+
+.show:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Change background on hover */
+}
+
+.show-info {
+  text-align: left;
+}
+
+.show-info span {
+  display: block;
+  padding-right: 20px; /* Or any spacing you prefer */
+  color: #fff; /* Ensure the text within these elements is also white */
+}
+
+.date {
+  font-size: 1.2em;
+}
+
+.venue {
+  font-size: 1em;
+  color: #ccc; /* Slightly different color for venue */
+}
+
+.tickets-button {
+  color: #fff;
+  border: 1px solid #fff;
+  padding: 5px 10px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.tickets-button:hover {
+  background-color: #fff;
+  color: #000; /* Change text color on hover for visibility */
+}
+
+#shows h2 {
+  color: #fff; /* Set the text color to white */
+  text-align: center; /* Align the text to the center */
+  margin-bottom: 20px;
+  font-size: 2em;
+}
+
+.releases-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.release {
+  margin: 20px;
+  text-align: center;
+}
+
+.album-art {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+}
+
+.album-title {
+  margin-top: 10px;
+  font-size: 1.2em;
+}
+
+.release a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.release a:hover .album-title {
+  text-decoration: underline;
+}
