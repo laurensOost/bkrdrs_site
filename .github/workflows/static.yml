@@ -27,9 +27,9 @@ jobs:
         uses: actions/configure-pages@v5
       - name: Replace secrets in files
         run: |
-          sed -i 's|-HXjHlEI8ydoyacHi|${{ secrets.EMAILJS_PUBLIC_KEY }}|g' ./index.html
-          sed -i 's|service_ikab6sp|${{ secrets.EMAILJS_SERVICE_ID }}|g' ./index.html
-          sed -i 's|template_fl1p6kp|${{ secrets.EMAILJS_TEMPLATE_ID }}|g' ./index.html
+          sed -i '-HXjHlEI8ydoyacHi|${{ secrets.EMAILJS_PUBLIC_KEY }}' ./index.html
+          sed -i 'service_ikab6sp|${{ secrets.EMAILJS_SERVICE_ID }}' ./index.html
+          sed -i 'template_fl1p6kp|${{ secrets.EMAILJS_TEMPLATE_ID }}' ./index.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
