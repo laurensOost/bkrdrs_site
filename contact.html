@@ -7,8 +7,13 @@
 <link rel="stylesheet" href="styles.css">
 <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
 <script type="text/javascript">
+  // Placeholder values to be replaced by GitHub Actions
+  const EMAILJS_PUBLIC_KEY = 'REPLACE_WITH_EMAILJS_PUBLIC_KEY';
+  const EMAILJS_SERVICE_ID = 'REPLACE_WITH_EMAILJS_SERVICE_ID';
+  const EMAILJS_TEMPLATE_ID = 'REPLACE_WITH_EMAILJS_TEMPLATE_ID';
+  
   (function(){
-    emailjs.init(process.env.REACT_APP_EMAILJS_PUBLIC_KEY);
+    emailjs.init(EMAILJS_PUBLIC_KEY);
   })();
 </script>
 </head>
@@ -51,8 +56,8 @@
     event.preventDefault();
 
     emailjs.sendForm(
-      process.env.REACT_APP_EMAILJS_SERVICE_ID,
-      process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
+      EMAILJS_SERVICE_ID,
+      EMAILJS_TEMPLATE_ID,
       this
     ).then(function() {
       console.log('SUCCESS!');
