@@ -7,13 +7,8 @@
 <link rel="stylesheet" href="styles.css">
 <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
 <script type="text/javascript">
-  // Placeholder values to be replaced by GitHub Actions
-  const EMAILJS_PUBLIC_KEY = 'REPLACE_WITH_EMAILJS_PUBLIC_KEY';
-  const EMAILJS_SERVICE_ID = 'REPLACE_WITH_EMAILJS_SERVICE_ID';
-  const EMAILJS_TEMPLATE_ID = 'REPLACE_WITH_EMAILJS_TEMPLATE_ID';
-  
   (function(){
-    emailjs.init(EMAILJS_PUBLIC_KEY);
+    emailjs.init("-HXjHlEI8ydoyacHi");
   })();
 </script>
 </head>
@@ -33,40 +28,29 @@
 <main id="contact">
   <h1>CONTACT/BOOKING</h1>
   <p>For booking and other inquiries, fill out the form below or email us at <a href="mailto:bokkerijdersband@gmail.com">bokkerijdersband@gmail.com</a></p>
-  <form id="contact-form">
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name" required>
+  <form action="https://api.web3forms.com/submit" method="POST">
 
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
+    <!-- Replace with your Access Key -->
+    <input type="hidden" name="access_key" value=" c967964c-055d-4a74-b567-af4fe81cb055">
 
-    <label for="message">Message:</label>
-    <textarea id="message" name="message" rows="5" required></textarea>
+    <!-- Form Inputs. Each input must have a name="" attribute -->
+    <label for="name">Name</label>
+    <input type="text" name="name" required>
+    <label for="email">Email</label>
+    <input type="email" name="email" required>
+    <label for="message">Message</label>
+    <textarea name="message" required></textarea>
 
-    <button type="submit">Send</button>
-  </form>
+    <!-- Honeypot Spam Protection -->
+    <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
+    <button type="submit">Send</button> 
+
+</form>
 </main>
 <footer>
   <p>&copy; 2024 BOKKERIJDERS. All rights reserved.</p>
 </footer>
-<script src="scripts.js"></script>
-
-<script type="text/javascript">
-  document.getElementById('contact-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    emailjs.sendForm(
-      EMAILJS_SERVICE_ID,
-      EMAILJS_TEMPLATE_ID,
-      this
-    ).then(function() {
-      console.log('SUCCESS!');
-      alert('Your message has been sent!');
-    }, function(error) {
-      console.log('FAILED...', error);
-      alert('Oops... something went wrong.');
-    });
-  });
-</script>
+<script src="script.js"></script>
 </body>
 </html>
