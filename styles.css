@@ -40,8 +40,7 @@ nav ul li a {
 main {
   text-align: center;
   padding: 50px 20px;
-  position: relative;
-  z-index: 2;
+  flex: 1;
 }
 
 footer {
@@ -59,7 +58,7 @@ video#background-video {
   min-height: 100%;
   z-index: 1;
   object-fit: cover;
-  filter: brightness(50%); /* Optional: to darken the video for better text readability */
+  filter: brightness(50%);
 }
 
 .shows-list {
