@@ -189,9 +189,8 @@ button:hover {
   background-color: #ccc;
 }
 
-/* Mobile-specific styles */
 @media (max-width: 768px) {
   video#background-video {
-    left: -10%;
+    left: -2;
   }
 }
