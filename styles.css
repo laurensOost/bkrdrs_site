@@ -116,8 +116,8 @@ video#background-video {
 }
 
 #shows h2 {
-  color: #fff; 
-  text-align: center; 
+  color: #fff; /* Set the text color to white */
+  text-align: center; /* Align the text to the center */
   margin-bottom: 20px;
   font-size: 2em;
 }
@@ -189,8 +189,9 @@ button:hover {
   background-color: #ccc;
 }
 
+/* Mobile-specific styles */
 @media (max-width: 768px) {
   video#background-video {
-    left: -20%;
+    left: -10%;
   }
 }
