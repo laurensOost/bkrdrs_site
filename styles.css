@@ -39,7 +39,7 @@ nav ul li a {
 
 main {
   text-align: center;
-  padding: 50px 20px;
+  padding: 10px 20px;
   flex: 1;
 }
 
@@ -50,15 +50,25 @@ footer {
   z-index: 2;
 }
 
-video#background-video {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  min-width: 100%;
-  min-height: 100%;
-  z-index: 1;
-  object-fit: cover;
-  filter: brightness(50%);
+.event-banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.event-banner span {
+  display: block;
+  color: #ff0000;
+  font-family: Impact, 'Arial Black', Arial, sans-serif;
+  font-size: clamp(2rem, 7vw, 6rem);
+  font-weight: 900;
+  text-align: center;
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 .shows-list {
@@ -189,8 +199,3 @@ button:hover {
   background-color: #ccc;
 }
 
-@media (max-width: 768px) {
-  video#background-video {
-    left: -2;
-  }
-}
