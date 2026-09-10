@@ -1,201 +1,468 @@
-body, html {
+
+*, *::before, *::after {
   margin: 0;
   padding: 0;
-  font-family: 'Arial', sans-serif;
-  background: rgb(0, 0, 0);
-  color: rgb(255, 255, 255);
-  overflow: auto;
-  position: relative;
-  height: 100%;
+  box-sizing: border-box;
 }
 
+body, html {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background: #000;
+  color: #fff;
+  min-height: 100%;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: #ccc;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ========================================
+   Layout
+   ======================================== */
+
+.site-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ========================================
+   Header / Nav
+   ======================================== */
+
 header {
-  text-align: center;
-  padding: 1em 0;
-  position: relative;
-  z-index: 2;
+  border-bottom: 1px solid #fff;
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.logo-link {
+  flex-shrink: 0;
+}
+
+.logo-image {
+  height: 48px;
+  width: auto;
 }
 
 nav ul {
   list-style: none;
-  padding: 0;
-}
-
-nav ul li {
-  display: inline;
-  margin-right: 20px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 nav ul li a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 1.6em;
+  display: block;
+  padding: 8px 16px;
+  font-size: 0.85em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1px solid #fff;
+  transition: background 0.2s, color 0.2s;
 }
 
-.logo-image {
-  max-width: 100%;
-  height: auto;
+nav ul li a:hover,
+nav ul li a.active {
+  background: #fff;
+  color: #000;
 }
+
+/* ========================================
+   Main Content
+   ======================================== */
 
 main {
-  text-align: center;
-  padding: 10px 20px;
-  flex: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 24px;
 }
 
-footer {
-  padding: 10px;
-  text-align: center;
-  position: relative;
-  z-index: 2;
+/* ========================================
+   Section Frames
+   ======================================== */
+
+.frame {
+  border: 1px solid #fff;
+  padding: 32px;
+  margin-bottom: 32px;
+}
+
+.frame-header {
+  font-size: 0.75em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #999;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #333;
 }
 
 .event-banner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.event-banner span {
   display: block;
-  color: #ff0000;
-  font-family: Impact, 'Arial Black', Arial, sans-serif;
-  font-size: clamp(2rem, 7vw, 6rem);
-  font-weight: 900;
+  border: 1px solid #fff;
+  padding: 48px 32px;
   text-align: center;
-  line-height: 1.15;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.2s;
 }
 
-.shows-list {
-  list-style-type: none; /* Remove default list styling */
-  padding: 0;
-  color: #fff; /* Set text color to white */
-  max-width: 800px;
+.event-banner:hover {
+  background: #fff;
+}
+
+.event-banner:hover .event-title,
+.event-banner:hover .event-subtitle,
+.event-banner:hover .event-date {
+  color: #000;
+}
+
+.event-title {
+  display: block;
+  font-family: Impact, 'Arial Black', Helvetica, sans-serif;
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: #fff;
+  transition: color 0.2s;
+}
+
+.event-subtitle {
+  display: block;
+  font-size: 1em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #999;
+  margin-top: 16px;
+  transition: color 0.2s;
+}
+
+.event-date {
+  display: block;
+  font-size: 0.9em;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #666;
+  margin-top: 8px;
+  transition: color 0.2s;
+}
+
+
+.hero {
+  text-align: center;
+  padding: 60px 0 40px;
+}
+
+.hero .logo-image {
+  height: auto;
+  max-width: 600px;
   margin: 0 auto;
 }
 
+/* ========================================
+   Shows
+   ======================================== */
+
+.section-title {
+  font-family: Impact, 'Arial Black', Helvetica, sans-serif;
+  font-size: 2.5em;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 32px;
+}
+
+.shows-list {
+  list-style: none;
+}
+
 .show {
-  display: flex; /* Use flexbox layout */
-  justify-content: space-between; /* This separates the left content and the button */
-  align-items: center; /* Center items vertically */
-  padding: 10px 20px;
-  border-bottom: 1px solid #fff; /* Make the horizontal rule white */
-  font-weight: bold; /* Make the text bold */
-  transition: background-color 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border: 1px solid #fff;
+  margin-bottom: -1px;
+  transition: background 0.2s;
+  gap: 16px;
 }
 
 .show:hover {
-  background-color: rgba(255, 255, 255, 0.1); /* Change background on hover */
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .show-info {
-  text-align: left;
+  flex: 1;
+  min-width: 0;
 }
 
-.show-info span {
+.show-info .date {
   display: block;
-  padding-right: 20px; /* Or any spacing you prefer */
-  color: #fff; /* Ensure the text within these elements is also white */
+  font-size: 1.1em;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
-.date {
-  font-size: 1.2em;
-}
-
-.venue {
-  font-size: 1em;
-  color: #ccc; /* Slightly different color for venue */
+.show-info .venue {
+  display: block;
+  font-size: 0.9em;
+  color: #999;
+  margin-top: 4px;
 }
 
 .tickets-button {
+  flex-shrink: 0;
+  display: inline-block;
+  padding: 10px 24px;
+  font-size: 0.85em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
   color: #fff;
   border: 1px solid #fff;
-  padding: 5px 10px;
-  text-decoration: none;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background 0.2s, color 0.2s;
 }
 
 .tickets-button:hover {
-  background-color: #fff;
-  color: #000; /* Change text color on hover for visibility */
+  background: #fff;
+  color: #000;
 }
 
-#shows h2 {
-  color: #fff; /* Set the text color to white */
-  text-align: center; /* Align the text to the center */
-  margin-bottom: 20px;
-  font-size: 2em;
-}
+/* ========================================
+   Releases
+   ======================================== */
 
-.releases-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+.releases-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
 }
 
 .release {
-  margin: 20px;
-  text-align: center;
+  border: 1px solid #fff;
+  transition: background 0.2s;
+}
+
+.release:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.release a {
+  display: block;
+  text-decoration: none;
 }
 
 .album-art {
-  width: 300px;
-  height: 300px;
+  width: 100%;
+  aspect-ratio: 1;
   object-fit: cover;
 }
 
 .album-title {
-  margin-top: 10px;
-  font-size: 1.2em;
+  padding: 16px;
+  font-size: 1em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-top: 1px solid #fff;
 }
 
-.release a {
+/* ========================================
+   Contact
+   ======================================== */
+
+.contact-intro {
+  font-size: 1em;
+  color: #999;
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+.contact-intro a {
   color: #fff;
-  text-decoration: none;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
-.release a:hover .album-title {
-  text-decoration: underline;
+.contact-intro a:hover {
+  color: #ccc;
 }
 
 form {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 4px;
+  max-width: 500px;
 }
 
 label {
-  font-size: 1.2em;
-  margin: 10px 0 5px;
+  font-size: 0.8em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #999;
+  margin-top: 16px;
 }
 
 input, textarea {
   width: 100%;
-  max-width: 500px;
-  padding: 10px;
-  margin-bottom: 15px;
+  padding: 12px 16px;
   border: 1px solid #fff;
-  background: rgba(0, 0, 0, 0.8);
+  background: transparent;
   color: #fff;
+  font-family: inherit;
   font-size: 1em;
 }
 
-button {
-  padding: 10px 20px;
-  font-size: 1.2em;
+input:focus, textarea:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+button[type="submit"] {
+  margin-top: 20px;
+  padding: 14px 32px;
+  font-family: inherit;
+  font-size: 0.9em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   color: #000;
   background: #fff;
-  border: none;
+  border: 1px solid #fff;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background 0.2s, color 0.2s;
+  align-self: flex-start;
 }
 
-button:hover {
-  background-color: #ccc;
+button[type="submit"]:hover {
+  background: transparent;
+  color: #fff;
 }
 
+/* ========================================
+   Footer
+   ======================================== */
+
+footer {
+  border-top: 1px solid #333;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+footer p {
+  font-size: 0.75em;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ========================================
+   Games nav (on pages that link them)
+   ======================================== */
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.game-card {
+  border: 1px solid #fff;
+  padding: 32px;
+  text-align: center;
+  transition: background 0.2s;
+  display: block;
+}
+
+.game-card:hover {
+  background: #fff;
+  color: #000;
+}
+
+.game-card .game-emoji {
+  font-size: 3em;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.game-card .game-title {
+  font-family: Impact, 'Arial Black', Helvetica, sans-serif;
+  font-size: 1.4em;
+  text-transform: uppercase;
+}
+
+.game-card .game-desc {
+  font-size: 0.85em;
+  color: #999;
+  margin-top: 8px;
+  transition: color 0.2s;
+}
+
+.game-card:hover .game-desc {
+  color: #666;
+}
+
+/* ========================================
+   Responsive
+   ======================================== */
+
+@media (max-width: 640px) {
+  .header-inner {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+
+  nav ul {
+    justify-content: center;
+  }
+
+  .show {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .frame {
+    padding: 20px;
+  }
+
+  .hero .logo-image {
+    max-width: 90%;
+  }
+
+  .event-banner {
+    padding: 32px 20px;
+  }
+}
