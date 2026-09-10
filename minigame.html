@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BKRDRS - Catch The Pablo</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body, html {
+      overflow: hidden;
+      cursor: none;
+      user-select: none;
+      height: 100%;
+    }
+
+    #game-area {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    #hud {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      text-align: center;
+    }
+
+    #hud h2 {
+      font-family: Impact, 'Arial Black', sans-serif;
+      color: #ff0000;
+      font-size: 2em;
+      text-transform: uppercase;
+      margin: 0 0 10px 0;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    }
+
+    #health-bar-container {
+      width: 300px;
+      height: 30px;
+      border: 3px solid #fff;
+      background: #333;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    #health-bar {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to right, #ff0000, #cc0000);
+      transition: width 0.3s ease;
+    }
+
+    #health-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: Impact, sans-serif;
+      font-size: 1em;
+      color: #fff;
+      text-shadow: 1px 1px 2px #000;
+    }
+
+    #hit-counter {
+      font-family: Impact, sans-serif;
+      color: #fff;
+      font-size: 1.2em;
+      margin-top: 8px;
+      text-shadow: 1px 1px 3px #000;
+    }
+
+    #target {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      overflow: hidden;
+      cursor: none;
+      transition: none;
+      z-index: 10;
+    }
+
+    #target img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+    }
+
+    #target.hit {
+      filter: brightness(2) saturate(0.5);
+    }
+
+    #axe-cursor {
+      position: fixed;
+      pointer-events: none;
+      z-index: 999;
+      font-size: 48px;
+      transform: translate(-24px, -24px);
+      transition: transform 0.05s;
+    }
+
+    #axe-cursor.swinging {
+      transform: translate(-24px, -24px) rotate(-45deg) scale(1.3);
+    }
+
+    .blood-splatter {
+      position: absolute;
+      pointer-events: none;
+      z-index: 5;
+      opacity: 0.9;
+    }
+
+    .blood-drop {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    #game-over {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 200;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.9);
+      padding: 40px;
+      border: 3px solid #ff0000;
+    }
+
+    #game-over h1 {
+      font-family: Impact, sans-serif;
+      color: #ff0000;
+      font-size: 4em;
+      margin: 0 0 10px 0;
+      text-transform: uppercase;
+    }
+
+    #game-over p {
+      font-size: 1.5em;
+      color: #fff;
+      margin: 10px 0;
+    }
+
+    #restart-btn {
+      margin-top: 20px;
+      padding: 15px 40px;
+      font-family: Impact, sans-serif;
+      font-size: 1.5em;
+      background: #ff0000;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    #restart-btn:hover {
+      background: #cc0000;
+    }
+
+    #taunt {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      font-family: Impact, sans-serif;
+      color: #ff0000;
+      font-size: 1.5em;
+      text-shadow: 2px 2px 4px #000;
+      opacity: 0;
+      transition: opacity 0.3s;
+      text-transform: uppercase;
+    }
+
+    #back-link {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 200;
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.2em;
+      cursor: pointer;
+    }
+
+    #back-link:hover {
+      color: #ff0000;
+    }
+  </style>
+</head>
+<body>
+  <a id="back-link" href="index.html">← BACK</a>
+
+  <div id="hud">
+    <h2>🪓 CATCH THE PABLO 🪓</h2>
+    <div id="health-bar-container">
+      <div id="health-bar"></div>
+      <span id="health-text">100 HP</span>
+    </div>
+    <div id="hit-counter">HITS: 0</div>
+  </div>
+
+  <div id="game-area">
+    <div id="target">
+      <img src="images/image.png" alt="Band member">
+    </div>
+  </div>
+
+  <div id="axe-cursor">🪓</div>
+
+  <div id="taunt"></div>
+
+  <div id="game-over">
+    <h1>WASTED</h1>
+    <p id="final-score"></p>
+    <p id="final-time"></p>
+    <button id="restart-btn">AGAIN!</button>
+  </div>
+
+  <script>
+    const target = document.getElementById('target');
+    const axeCursor = document.getElementById('axe-cursor');
+    const healthBar = document.getElementById('health-bar');
+    const healthText = document.getElementById('health-text');
+    const hitCounter = document.getElementById('hit-counter');
+    const gameOver = document.getElementById('game-over');
+    const finalScore = document.getElementById('final-score');
+    const finalTime = document.getElementById('final-time');
+    const restartBtn = document.getElementById('restart-btn');
+    const tauntEl = document.getElementById('taunt');
+    const gameArea = document.getElementById('game-area');
+
+    let health = 100;
+    let hits = 0;
+    let targetX = window.innerWidth / 2;
+    let targetY = window.innerHeight / 2;
+    let velX = 3;
+    let velY = 2;
+    let mouseX = 0;
+    let mouseY = 0;
+    let gameRunning = true;
+    let startTime = Date.now();
+    let speed = 3;
+    let dirChangeTimer = 0;
+    let fleeMode = false;
+
+    const taunts = [
+      "TOO SLOW!",
+      "CAN'T CATCH ME!",
+      "NICE TRY!",
+      "HAHA MISSED!",
+      "OVER HERE!",
+      "YOU CALL THAT AN AXE?",
+      "MY GRANDMA SWINGS HARDER!",
+      "OUCH! ...NOT!",
+      "KEEP TRYING!",
+      "IS THAT ALL YOU GOT?"
+    ];
+
+    const hitTaunts = [
+      "OW!",
+      "HEY!",
+      "THAT HURT!",
+      "WATCH IT!",
+      "RUDE!",
+      "AAARGH!",
+      "NOT THE FACE!"
+    ];
+
+    function showTaunt(text) {
+      tauntEl.textContent = text;
+      tauntEl.style.opacity = 1;
+      setTimeout(() => { tauntEl.style.opacity = 0; }, 1200);
+    }
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      axeCursor.style.left = e.clientX + 'px';
+      axeCursor.style.top = e.clientY + 'px';
+    });
+
+    function createBloodSplatter(x, y) {
+      const count = 8 + Math.floor(Math.random() * 12);
+      for (let i = 0; i < count; i++) {
+        const drop = document.createElement('div');
+        drop.className = 'blood-drop';
+        const size = 5 + Math.random() * 25;
+        const angle = Math.random() * Math.PI * 2;
+        const dist = Math.random() * 80;
+        const dropX = x + Math.cos(angle) * dist - size / 2;
+        const dropY = y + Math.sin(angle) * dist - size / 2;
+
+        drop.style.width = size + 'px';
+        drop.style.height = size * (0.6 + Math.random() * 0.8) + 'px';
+        drop.style.left = dropX + 'px';
+        drop.style.top = dropY + 'px';
+        drop.style.background = `rgb(${150 + Math.floor(Math.random() * 80)}, 0, 0)`;
+        drop.style.borderRadius = Math.random() > 0.5 ? '50%' : `${Math.random()*50}% ${Math.random()*50}% ${Math.random()*50}% ${Math.random()*50}%`;
+        drop.style.opacity = 0.7 + Math.random() * 0.3;
+        drop.style.transform = `rotate(${Math.random() * 360}deg)`;
+        gameArea.appendChild(drop);
+
+        setTimeout(() => {
+          drop.style.transition = 'opacity 3s';
+          drop.style.opacity = 0.3;
+        }, 2000);
+      }
+
+      // Big central splat
+      const splat = document.createElement('div');
+      splat.className = 'blood-splatter';
+      const splatSize = 40 + Math.random() * 40;
+      splat.style.width = splatSize + 'px';
+      splat.style.height = splatSize + 'px';
+      splat.style.left = (x - splatSize / 2) + 'px';
+      splat.style.top = (y - splatSize / 2) + 'px';
+      splat.style.background = 'radial-gradient(circle, #8b0000 0%, #5c0000 40%, transparent 70%)';
+      splat.style.borderRadius = `${Math.random()*50}% ${Math.random()*50}% ${Math.random()*50}% ${Math.random()*50}%`;
+      gameArea.appendChild(splat);
+    }
+
+    function hitTarget() {
+      if (!gameRunning) return;
+
+      const rect = target.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = mouseX - cx;
+      const dy = mouseY - cy;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist < 70) {
+        const damage = 8 + Math.floor(Math.random() * 7);
+        health = Math.max(0, health - damage);
+        hits++;
+
+        healthBar.style.width = health + '%';
+        healthText.textContent = health + ' HP';
+        hitCounter.textContent = 'HITS: ' + hits;
+
+        target.classList.add('hit');
+        setTimeout(() => target.classList.remove('hit'), 150);
+
+        createBloodSplatter(cx, cy);
+
+        showTaunt(hitTaunts[Math.floor(Math.random() * hitTaunts.length)]);
+
+        // Flee from axe after hit
+        const fleeAngle = Math.atan2(cy - mouseY, cx - mouseX);
+        velX = Math.cos(fleeAngle) * (speed + 4);
+        velY = Math.sin(fleeAngle) * (speed + 4);
+        fleeMode = true;
+        setTimeout(() => { fleeMode = false; }, 500);
+
+        // Speed up as health drops
+        speed = 3 + (100 - health) * 0.06;
+
+        if (health <= 0) {
+          endGame();
+        }
+      } else {
+        if (Math.random() < 0.4) {
+          showTaunt(taunts[Math.floor(Math.random() * taunts.length)]);
+        }
+      }
+
+      // Axe swing animation
+      axeCursor.classList.add('swinging');
+      setTimeout(() => axeCursor.classList.remove('swinging'), 150);
+    }
+
+    document.addEventListener('click', hitTarget);
+
+    function endGame() {
+      gameRunning = false;
+      const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+      finalScore.textContent = hits + ' HITS TO FINISH THE JOB';
+      finalTime.textContent = 'TIME: ' + elapsed + 's';
+      gameOver.style.display = 'block';
+
+      // Massive final blood explosion
+      const rect = target.getBoundingClientRect();
+      for (let i = 0; i < 5; i++) {
+        createBloodSplatter(
+          rect.left + rect.width / 2 + (Math.random() - 0.5) * 60,
+          rect.top + rect.height / 2 + (Math.random() - 0.5) * 60
+        );
+      }
+      target.style.opacity = '0.3';
+      target.style.filter = 'grayscale(1)';
+    }
+
+    restartBtn.addEventListener('click', () => {
+      health = 100;
+      hits = 0;
+      speed = 3;
+      gameRunning = true;
+      startTime = Date.now();
+      healthBar.style.width = '100%';
+      healthText.textContent = '100 HP';
+      hitCounter.textContent = 'HITS: 0';
+      gameOver.style.display = 'none';
+      target.style.opacity = '1';
+      target.style.filter = 'none';
+
+      // Clear blood
+      document.querySelectorAll('.blood-splatter, .blood-drop').forEach(el => el.remove());
+
+      targetX = window.innerWidth / 2;
+      targetY = window.innerHeight / 2;
+    });
+
+    function gameLoop() {
+      if (!gameRunning) {
+        requestAnimationFrame(gameLoop);
+        return;
+      }
+
+      dirChangeTimer++;
+
+      // Random direction changes
+      if (dirChangeTimer > 60 + Math.random() * 60) {
+        dirChangeTimer = 0;
+        const angle = Math.random() * Math.PI * 2;
+        velX = Math.cos(angle) * speed;
+        velY = Math.sin(angle) * speed;
+      }
+
+      // Flee from mouse when close
+      if (!fleeMode) {
+        const dx = mouseX - targetX;
+        const dy = mouseY - targetY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < 200) {
+          const fleeAngle = Math.atan2(targetY - mouseY, targetX - mouseX);
+          velX += Math.cos(fleeAngle) * 0.5;
+          velY += Math.sin(fleeAngle) * 0.5;
+        }
+      }
+
+      // Clamp speed
+      const currentSpeed = Math.sqrt(velX * velX + velY * velY);
+      const maxSpeed = speed + 3;
+      if (currentSpeed > maxSpeed) {
+        velX = (velX / currentSpeed) * maxSpeed;
+        velY = (velY / currentSpeed) * maxSpeed;
+      }
+
+      targetX += velX;
+      targetY += velY;
+
+      // Bounce off walls
+      const margin = 60;
+      const hudBottom = 120;
+      if (targetX < margin) { targetX = margin; velX = Math.abs(velX); }
+      if (targetX > window.innerWidth - margin) { targetX = window.innerWidth - margin; velX = -Math.abs(velX); }
+      if (targetY < hudBottom) { targetY = hudBottom; velY = Math.abs(velY); }
+      if (targetY > window.innerHeight - margin) { targetY = window.innerHeight - margin; velY = -Math.abs(velY); }
+
+      target.style.left = (targetX - 60) + 'px';
+      target.style.top = (targetY - 60) + 'px';
+
+      requestAnimationFrame(gameLoop);
+    }
+
+    // Random taunt every ~5s
+    setInterval(() => {
+      if (gameRunning && Math.random() < 0.5) {
+        showTaunt(taunts[Math.floor(Math.random() * taunts.length)]);
+      }
+    }, 5000);
+
+    gameLoop();
+  </script>
+</body>
+</html>
