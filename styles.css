@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap');
 
 *, *::before, *::after {
   margin: 0;
@@ -141,11 +142,11 @@ main {
 
 .event-title {
   display: block;
-  font-family: Impact, 'Arial Black', Helvetica, sans-serif;
+  font-family: 'UnifrakturMaguntia', Impact, serif;
   font-size: clamp(2.5rem, 8vw, 5rem);
-  font-weight: 900;
+  font-weight: 400;
   line-height: 1.05;
-  text-transform: uppercase;
+  text-transform: none;
   color: #fff;
   transition: color 0.2s;
 }
@@ -189,10 +190,10 @@ main {
    ======================================== */
 
 .section-title {
-  font-family: Impact, 'Arial Black', Helvetica, sans-serif;
-  font-size: 2.5em;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  font-family: 'UnifrakturMaguntia', Impact, serif;
+  font-size: 3em;
+  text-transform: none;
+  letter-spacing: 0.02em;
   margin-bottom: 32px;
 }
 
